@@ -23,8 +23,8 @@ private:
     std::shared_ptr<uint8_t> buffer_;
 
 private:
-    constexpr static int CHANNELS = 2;
+    constexpr static int CHANNELS    = 2;
     constexpr static int SAMPLE_SIZE = 32;
 };
 
-#endif  // __AUDIO_DRIVER_H__
+#endif // __AUDIO_DRIVER_H__

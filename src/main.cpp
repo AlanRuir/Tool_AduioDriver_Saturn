@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
     sigaction(SIGINT, &action, NULL);
-    
+
     std::shared_ptr<AudioDriver> audio_driver = std::make_shared<AudioDriver>("default", 2, 44100);
     audio_driver->GetPcmDevicesList();
 
