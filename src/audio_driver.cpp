@@ -5,6 +5,7 @@ AudioDriver::AudioDriver(const std::string& device_name, int channels, int sampl
     , rc_(0)
     , size_(0)
     , frames_(1024)
+    , callback_(nullptr)
 {
     snd_pcm_hw_params_t* params = nullptr;
     unsigned int         rate   = sample_rate;
@@ -171,9 +172,22 @@ bool AudioDriver::GetPcmFrames()
         return false;
     }
 
-    // 回调函数
-    FILE* file = fopen("output_f32le.pcm", "ab+");
-    fwrite(buffer_.get(), 1, size_, file);
-    fclose(file);
+    if (callback_)
+    {
+        callback_(buffer_.get(), size_);
+    }
+
+    return true;
+}
+
+bool AudioDriver::InstantCallback(AudioBufferCallback callback)
+{
+    if (!callback)
+    {
+        return false;
+    }
+
+    callback_ = callback;
+
     return true;
 }

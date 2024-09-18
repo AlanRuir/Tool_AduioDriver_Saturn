@@ -15,6 +15,13 @@ void signalHandler(int sig)
     raise(sig);
 }
 
+void SaveFCM(uint8_t* data, int size)
+{
+    FILE* file = fopen("output_f32le.pcm", "ab+");
+    fwrite(data, 1, size, file);
+    fclose(file);
+}
+
 int main(int argc, char* argv[])
 {
     struct sigaction action;
@@ -25,6 +32,7 @@ int main(int argc, char* argv[])
 
     std::shared_ptr<AudioDriver> audio_driver = std::make_shared<AudioDriver>("default", 2, 44100);
     audio_driver->GetPcmDevicesList();
+    audio_driver->InstantCallback(SaveFCM);
 
     while (true)
     {
